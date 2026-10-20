@@ -628,12 +628,7 @@ em {
   transform: translateY(-6px);
   box-shadow: var(--shadow-card);
   background-color: var(--bg-elevated);
-}
-
-.service-card.featured-card {
-  background-color: var(--bg-elevated);
   border-color: rgba(194, 101, 71, 0.38);
-  box-shadow: var(--shadow-soft);
 }
 
 .service-top {
