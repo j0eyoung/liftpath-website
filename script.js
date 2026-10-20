@@ -3,7 +3,8 @@
 // 1. Dual Theme Switcher (Warm & Earthy <-> Engineer Dark Mode)
 // 2. Mobile Menu Drawer
 // 3. Scroll Reveal Observer
-// 4. Direct Background Email via FormSubmit.co + mailto fallback
+// 4. Bot-Proof Contact Obfuscation (Assembled at runtime from char codes)
+// 5. Direct Background Email via FormSubmit.co (Masked Token ID)
 // ==========================================================================
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -81,7 +82,27 @@ document.addEventListener('DOMContentLoaded', () => {
     fadeElements.forEach((el) => el.classList.add('visible'));
   }
 
-  // 5. Contact Form Handler (FormSubmit AJAX -> edwinyoung94@gmail.com)
+  // 5. Anti-Scraper Contact Obfuscation (Decoded only in real browser DOM)
+  const decode = (codes) => codes.map((c) => String.fromCharCode(c)).join('');
+  // 'joe' + '@' + 'liftpathconsulting.com'
+  const addr = decode([106, 111, 101, 64, 108, 105, 102, 116, 112, 97, 116, 104, 99, 111, 110, 115, 117, 108, 116, 105, 110, 103, 46, 99, 111, 109]);
+  // '(720) 961-3728' & '7209613728'
+  const phoneDisplay = decode([40, 55, 50, 48, 41, 32, 57, 54, 49, 45, 51, 55, 50, 56]);
+  const phoneRaw = decode([55, 50, 48, 57, 54, 49, 51, 55, 50, 56]);
+
+  const emailEl = document.getElementById('obf-email');
+  if (emailEl) {
+    emailEl.textContent = addr;
+    emailEl.setAttribute('href', `mailto:${addr}`);
+  }
+
+  const phoneEl = document.getElementById('obf-phone');
+  if (phoneEl) {
+    phoneEl.textContent = phoneDisplay;
+    phoneEl.setAttribute('href', `tel:${phoneRaw}`);
+  }
+
+  // 6. Contact Form Handler (FormSubmit Masked Token ID)
   const contactForm = document.getElementById('contact-form');
   const formStatus = document.getElementById('form-status');
   const submitBtn = document.getElementById('submit-btn');
@@ -142,7 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const body = encodeURIComponent(
           `Name: ${name}\nEmail: ${email}\nInterest: ${interest}\n\nDetails:\n${message}`
         );
-        window.location.href = `mailto:joe@liftpathconsulting.com?subject=${subject}&body=${body}`;
+        window.location.href = `mailto:${addr}?subject=${subject}&body=${body}`;
 
         if (submitBtn) {
           submitBtn.disabled = false;
