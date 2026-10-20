@@ -107,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       try {
-        const response = await fetch('https://formsubmit.co/ajax/joe@liftpathconsulting.com', {
+        const response = await fetch('https://formsubmit.co/ajax/1bed6213bfbe846d0d689959fc0d65bc', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
